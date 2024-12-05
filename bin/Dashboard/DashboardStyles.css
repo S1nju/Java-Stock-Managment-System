@@ -1,0 +1,77 @@
+.btn{
+	-fx-background-color:#ffffff;
+	-fx-border-color:#000;
+	-fx-border-width:.1px .2px .8px .2px;
+	
+}
+.btn:hover{
+	-fx-background-color:#d9fffe;
+	-fx-cursor:hand;
+}
+.left-pane{
+	-fx-background-color:#ffffff;
+	
+}
+.top-pane{
+	-fx-border-width:.1px .2px .8px .2px;
+	-fx-border-color:#cdcdcd;
+	-fx-background-color:#ffffff;
+	
+}
+.shadow{
+	-fx-effect: dropshadow(gaussian, rgba(100, 100, 111, 0.2), 29, 0, 0, 7);
+}
+.shadowtopbar{
+	-fx-effect:
+	 dropshadow(gaussian, rgba(149, 157, 165, 0.2), 10,0 ,0 ,0);
+}
+.CARD{
+	-fx-background-color:#cdfff6;
+	-fx-effect:
+		 dropshadow(gaussian, rgba(149, 157, 165, 0.2), 10,0 ,0 ,0);
+	
+	
+}
+.table-view{
+	-fx-background-color:transparent;
+	-fx-border-color:grey;
+	-fx-padding:0px;
+	-fx-border-radius:8px;
+	
+}
+.table-view .table-column {
+	-fx-alignment:CENTER;
+}
+.table-view .column-header-background{
+	-fx-background-color:#ffff;
+	-fx-background-insets:0 0 0 0;
+	-fx-background-radius: 8px 8px 0px 0px;
+	
+	
+}
+.table-view .column-header, .filter{
+	
+	-fx-background-color:transparent;
+	-fx-size:40px;
+	
+}
+.table-view .column-header .label{
+	
+	-fx-text-fill:black;
+	-fx-font-family:"Arial";
+	
+}
+.textfield{
+	-fx-background-color:transparent;
+	-fx-border-color:#000;
+	-fx-border-width:0.5px;
+	-fx-border-radius:5px;
+	-fx-font-family:"Arial";
+}
+.textfield:focused{
+	-fx-background-color:transparent;
+	-fx-border-color:#d0d0d0;
+	-fx-border-width:1px;
+	-fx-border-radius:5px;
+	-fx-font-family:"Arial";
+}
