@@ -39,17 +39,13 @@ import javafx.stage.StageStyle;
 public class DashboardController  implements Initializable {
 	private double x=0,y=0;
 	 @FXML
-	    private TableColumn<SourcesData, Integer> Dis_col_did;
-
+	    private TableColumn<SourcesData, Integer> Dis_col_did;	 
 	    @FXML
 	    private TableColumn<SourcesData, String> Dis_col_lastname;
-
 	    @FXML
 	    private TableColumn<SourcesData, String> Dis_col_name;
-
 	    @FXML
 	    private TableColumn<SourcesData, String> Dis_col_wilaya;
-
 	    @FXML
 	    private Button Dis_create;
 
@@ -58,161 +54,112 @@ public class DashboardController  implements Initializable {
 
 	    @FXML
 	    private TextField Dis_did;
-
 	    @FXML
 	    private TextField Dis_name;
 	    @FXML
 	    private TextField Dis_firstname;
 	    @FXML
 	    private TextField Dis_willaya;
-
 	    @FXML
 	    private TextField Dis_search;
-
 	    @FXML
 	    private Button Dis_update;
-
 	    @FXML
 	    private AnchorPane catg;
-
 	    @FXML
 	    private Button catgoriesbtn;
-
 	    @FXML
 	    private TextField cid_cid;
-
 	    @FXML
 	    private TableColumn<?, ?> cid_col_name;
-
 	    @FXML
 	    private Button cid_create;
-
 	    @FXML
 	    private Button cid_delete;
-
 	    @FXML
 	    private TextField cid_search;
-
 	    @FXML
 	    private Button cid_update;
-
 	    @FXML
 	    private Button close;
-
 	    @FXML
 	    private Button createbtn4;
-
 	    @FXML
 	    private AnchorPane dashboard;
-
 	    @FXML
 	    private Button dashboardbtn;
-
 	    @FXML
 	    private Button deletebtn4;
-
 	    @FXML
 	    private TableView<SourcesData> dtableview;
 	    @FXML
 	    private TableView<CatgData> ctableview;
-
 	    @FXML
 	    private TableView<TypeData> ttableview;
 	    @FXML
 	    private TableView<ProductData> protableview;
-
 	    @FXML
 	    private Button logout;
-
 	    @FXML
 	    private ChoiceBox<String> pro_catg;
-
 	    @FXML
 	    private TableColumn<?, ?> pro_col_catg;
-
 	    @FXML
 	    private TableColumn<?, ?> pro_col_name;
-
 	    @FXML
 	    private TableColumn<?, ?> pro_col_pid;
-
 	    @FXML
 	    private TableColumn<?, ?> pro_col_price;
-
 	    @FXML
 	    private TableColumn<?, ?> pro_col_qte;
-
 	    @FXML
 	    private TableColumn<?, ?> pro_col_source;
-
 	    @FXML
 	    private TableColumn<?, ?> pro_col_type;
-
 	    @FXML
 	    private Button pro_confirm;
-
 	    @FXML
 	    private Button pro_delete;
-
 	    @FXML
 	    private Button pro_edit;
-
 	    @FXML
 	    private TextField pro_name;
-
 	    @FXML
 	    private TextField pro_pid;
-
 	    @FXML
 	    private TextField pro_price;
-
 	    @FXML
 	    private TextField pro_qte;
-
 	    @FXML
 	    private TextField pro_search;
-
 	    @FXML
 	    private ChoiceBox<String> pro_source;
-
 	    @FXML
 	    private ChoiceBox<String> pro_type;
-
 	    @FXML
 	    private Button productbtn;
-
 	    @FXML
 	    private AnchorPane products;
-
 	    @FXML
 	    private TextField search4;
-
 	    @FXML
 	    private Button sourcebtn;
-
 	    @FXML
 	    private AnchorPane sources;
-
 	    @FXML
 	    private TextField tid;
 	    @FXML
 	    private TextField cid_name ;
-
 	    @FXML
 	    private TableColumn<TypeData, String> tid_name;
-
 	    @FXML
 	    private TextField type_name;
-
 	    @FXML
 	    private Button typebtn;
-
 	    @FXML
 	    private AnchorPane types;
-
 	    @FXML
 	    private Button updatebtn4;
-
 	    @FXML
 	    private Label username;
 	    @FXML
@@ -221,14 +168,10 @@ public class DashboardController  implements Initializable {
 	    private Label moneytotal;
 	    @FXML
 	    private PieChart pie;
-
    private  Connection con;
    private Statement s;
    private PreparedStatement prepare;
    private ResultSet res;
-   
-  
-   
    public void productDelete() throws SQLException {
 	   
 
@@ -615,120 +558,29 @@ TypeData source ;
     	
     		
     }
+    //catg methods
    public void catgDelete() {
-	   String sql = "DELETE FROM catg WHERE CID='"+cid_cid.getText()+"'";
-	   con = JDBC.getcon();
-	   try {
-		   if(cid_name.getText().isEmpty()) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-				
-				alert2.setTitle("ERROR");
-				alert2.setHeaderText("Blank Fields");
-				alert2.setContentText("please Fill all the Texts Feilds");
-				alert2.show();
-			   
-		   }else {
-
-	Alert alert2 = new Alert(AlertType.CONFIRMATION);
-				
-				alert2.setTitle("CONFIRMATION");
-				alert2.setHeaderText("Confirm command");
-				alert2.setContentText("Are you sure that you want to delete "+ cid_name.getText());
-				
-				if(alert2.showAndWait().get()== ButtonType.OK) {
-					 s  = con.createStatement();
-					   s.executeUpdate(sql);	
-					   
-						 addcatgShowliastData();
-						 resetafteraddcatg();
-				
-				
-				
-				}
-		
-		   }
-	   }catch(Exception e) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-			
-			alert2.setTitle("ERROR");
-			alert2.setHeaderText("Error while adding");
-			alert2.setContentText("please verify all the text fields "+e );
-			alert2.show();
-		   e.printStackTrace();
-	   }
-	   
+	   CatgDelete1.CatgDeletes(cid_name.getText(), cid_cid.getText());
+	   addcatgShowliastData();
+		 resetafteraddcatg();	   
    }
    public void catgUpdate() {
-	   String sql = "UPDATE catg SET CID= '"+ cid_name.getText() +"' WHERE CID='"+cid_cid.getText()+"'";
-	   con = JDBC.getcon();
 	   try {
-		   if(cid_name.getText().isEmpty()) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-				
-				alert2.setTitle("ERROR");
-				alert2.setHeaderText("Blank Fields");
-				alert2.setContentText("please Fill all the Texts Feilds");
-				alert2.show();
-			   
-		   }else {
-	Alert alert2 = new Alert(AlertType.CONFIRMATION);
-				
-				alert2.setTitle("CONFIRMATION");
-				alert2.setHeaderText("Confirm command");
-				alert2.setContentText("Are you sure that you want to edit "+ cid_name.getText());
-				
-				if(alert2.showAndWait().get()== ButtonType.OK) {
-					 s  = con.createStatement();
-					   s.executeUpdate(sql);	
-						addproductShowliastData();
-						 addcatgShowliastData();
-						 resetafteraddcatg();
-				
-				
-				
-				}
-		
-		   
+		   CatgUpdate.CatgUpdates(cid_name.getText(), cid_cid.getText());
+		addproductShowliastData();
+		 addcatgShowliastData();
+		 resetafteraddcatg();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 	}
-	   }catch(Exception e) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-			
-			alert2.setTitle("ERROR");
-			alert2.setHeaderText("Error while adding");
-			alert2.setContentText("please verify all the text fields "+e );
-			alert2.show();
-		   e.printStackTrace();
-	   }
+	
 	   
    }
    public void catgadd() {
-	   String querry = "INSERT INTO catg (CID) VALUES (?)";
-	   con = JDBC.getcon();
-	   try {
-		   if(cid_name.getText().isEmpty()) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-				
-				alert2.setTitle("ERROR");
-				alert2.setHeaderText("Blank Fields");
-				alert2.setContentText("please Fill all the Texts Feilds");
-				alert2.show();
-			   
-		   }else {
-		   prepare = con.prepareStatement(querry);
-		   prepare.setString(1, cid_name.getText());
-
-		 prepare.executeUpdate();
-		 addcatgShowliastData();
-		 resetafteraddcatg();}
-	   }catch(Exception e) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-			
-			alert2.setTitle("ERROR");
-			alert2.setHeaderText("Error while adding");
-			alert2.setContentText("please verify all the text fields "+e );
-			alert2.show();
-		   e.printStackTrace();
-	   }
+	   CatgCreate.CatgCreates(cid_name.getText());
+	   addcatgShowliastData();
+		 resetafteraddcatg();
    }
    public void resetafteraddcatg() {
 	   cid_name.setText("");
@@ -779,124 +631,27 @@ TypeData source ;
     	
     	cid_name.setText(sd.getCID());
     	cid_cid.setText(sd.getCID());
-    	
-    		
     }
+    //sources methods
    public void SourceDelete() {
-	   String sql = "DELETE FROM distributeur WHERE DID= "+Dis_did.getText();
-	   con = JDBC.getcon();
-	   try {
-		   if(Dis_name.getText().isEmpty()||Dis_firstname.getText().isEmpty()||Dis_willaya.getText().isEmpty()) {
-				Alert alert2 = new Alert(AlertType.ERROR);
-							
-							alert2.setTitle("ERROR");
-							alert2.setHeaderText("Blank Fields");
-							alert2.setContentText("please Fill all the Texts Feilds");
-							alert2.show();
-						   
-					   }else {
-	Alert alert2 = new Alert(AlertType.CONFIRMATION);
-				
-				alert2.setTitle("CONFIRMATION");
-				alert2.setHeaderText("Confirm command");
-				alert2.setContentText("Are you sure that you want to delete"+ Dis_name.getText());
-				
-				if(alert2.showAndWait().get()== ButtonType.OK) {
-					 s  = con.createStatement();
-					   s.executeUpdate(sql);	
-					   
+SourceDelete.SourceDeletes(Dis_did.getText());	   
 						 addSourceShowliastData();
 						 resetafteraddsource();
-				
-				
-				
-				}
-					   }
-		   
-	   }catch(Exception e) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-			
-			alert2.setTitle("ERROR");
-			alert2.setHeaderText("Error while adding");
-			alert2.setContentText("please verify all the text fields "+e );
-			alert2.show();
-		   e.printStackTrace();
-	   }
-	   
    }
    public void SourceUpdate() {
-	   String sql = "UPDATE distributeur SET nom= '"+ Dis_name.getText() +"',prenom='"+ Dis_firstname.getText()+"',willaya='"+Dis_willaya.getText()+"' WHERE DID="+Integer.parseInt(Dis_did.getText())+"";
-	   con = JDBC.getcon();
-	   try {
-		   if(Dis_name.getText().isEmpty()||Dis_firstname.getText().isEmpty()||Dis_willaya.getText().isEmpty()) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-				
-				alert2.setTitle("ERROR");
-				alert2.setHeaderText("Blank Fields");
-				alert2.setContentText("please Fill all the Texts Feilds");
-				alert2.show();
-			   
-		   }else {
-	Alert alert2 = new Alert(AlertType.CONFIRMATION);
-				
-				alert2.setTitle("CONFIRMATION");
-				alert2.setHeaderText("Confirm command");
-				alert2.setContentText("Are you sure that you want to edit "+ Dis_name.getText());
-				
-				if(alert2.showAndWait().get()== ButtonType.OK) {
-					 s  = con.createStatement();
-					   s.executeUpdate(sql);	
-						addproductShowliastData();
-						 addSourceShowliastData();
-						 resetafteraddsource();
-				
-				
-				
-				}
-		
-		   
-	}
-	   }catch(Exception e) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-			
-			alert2.setTitle("ERROR");
-			alert2.setHeaderText("Error while adding");
-			alert2.setContentText("please verify all the text fields "+e );
-			alert2.show();
-		   e.printStackTrace();
-	   }
-	   
+	   try { SourceUpdate.SourceUpdates(Dis_name.getText(),  Dis_firstname.getText(), Dis_willaya.getText(), Integer.parseInt(Dis_did.getText()));
+		addproductShowliastData();
+		 addSourceShowliastData();
+		 resetafteraddsource();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}   
    }
    public void Sourceadd() {
-	   String querry = "INSERT INTO distributeur (nom,prenom,willaya) VALUES (?,?,?)";
-	   con = JDBC.getcon();
-	   try {
-		   if(Dis_name.getText().isEmpty()||Dis_firstname.getText().isEmpty()||Dis_willaya.getText().isEmpty()) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-				
-				alert2.setTitle("ERROR");
-				alert2.setHeaderText("Blank Fields");
-				alert2.setContentText("please Fill all the Texts Feilds");
-				alert2.show();
-			   
-		   }else {
-		   prepare = con.prepareStatement(querry);
-		   prepare.setString(1, Dis_name.getText());
-		   prepare.setString(2, Dis_firstname.getText());
-		   prepare.setString(3, Dis_willaya.getText());
-		 prepare.executeUpdate();
-		 addSourceShowliastData();
-		 resetafteraddsource();}
-	   }catch(Exception e) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-			
-			alert2.setTitle("ERROR");
-			alert2.setHeaderText("Error while adding");
-			alert2.setContentText("please verify all the text fields "+e );
-			alert2.show();
-		   e.printStackTrace();
-	   }
-   }
+	   SourceCreate.SourceCreates(Dis_name.getText(), Dis_firstname.getText(),Dis_willaya.getText());
+	 addSourceShowliastData();
+	resetafteraddsource();}
    public void resetafteraddsource() {
 	   Dis_name.setText("");
 	   Dis_firstname.setText("");
@@ -937,9 +692,7 @@ TypeData source ;
     	Dis_col_name.setCellValueFactory(new PropertyValueFactory<>("Name"));
     	Dis_col_lastname.setCellValueFactory(new PropertyValueFactory<>("Lastname"));
     	Dis_col_wilaya.setCellValueFactory(new PropertyValueFactory<>("Willaya"));
-    	dtableview.setItems(addsourcelist);
-    	
-    }
+    	dtableview.setItems(addsourcelist);}
     public void addEmployeeSelect() {
     	SourcesData sd = dtableview.getSelectionModel().getSelectedItem();
     	int num = dtableview.getSelectionModel().getSelectedIndex();
@@ -970,21 +723,14 @@ TypeData source ;
     		catgoriesbtn.setStyle("-fx-background-color:#fff;");
     		sourcebtn.setStyle("-fx-background-color:#fff;");
     		typebtn.setStyle("-fx-background-color:#fff;");
-    
-    		
-
-
     	}else if(e.getSource()==productbtn) {
-    	
     		types.setVisible(false);
     		catg.setVisible(false);
     		sources.setVisible(false);
     		dashboard.setVisible(false);
     		products.setVisible(true);
-    		
     		productbtn.setStyle("-fx-background-color:#d9fffe;");
     		dashboardbtn.setStyle("-fx-background-color:#fff;");
-    		
     		catgoriesbtn.setStyle("-fx-background-color:#fff;");
     		sourcebtn.setStyle("-fx-background-color:#fff;");
     		typebtn.setStyle("-fx-background-color:#fff;");
@@ -998,19 +744,14 @@ TypeData source ;
     		dashboard.setVisible(false);
     		products.setVisible(false);
     		catg.setVisible(true);
-    		
     		catgoriesbtn.setStyle("-fx-background-color:#d9fffe;");
     		productbtn.setStyle("-fx-background-color:#fff;");
     		dashboardbtn.setStyle("-fx-background-color:#fff;");
-    		
-    	
     		sourcebtn.setStyle("-fx-background-color:#fff;");
     		typebtn.setStyle("-fx-background-color:#fff;");
     		resetafteraddcatg();
-    		
     	}else if(e.getSource()==sourcebtn) {
     		types.setVisible(false);
-    		
     		dashboard.setVisible(false);
     		products.setVisible(false);
     		catg.setVisible(false);

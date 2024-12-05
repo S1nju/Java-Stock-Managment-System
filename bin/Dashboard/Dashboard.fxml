@@ -123,7 +123,7 @@
                <center>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane fx:id="dashboard" layoutX="6.0" layoutY="30.0" prefHeight="460.0" prefWidth="588.0" stylesheets="@DashboardStyles.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="dashboard" layoutX="6.0" layoutY="30.0" prefHeight="460.0" prefWidth="588.0" stylesheets="@DashboardStyles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="162.0" prefHeight="290.0" prefWidth="568.0" styleClass="shadow" stylesheets="@DashboardStyles.css">
                                  <children>
@@ -187,7 +187,7 @@
                               <String fx:value="shadow" />
                            </styleClass>
                         </AnchorPane>
-                        <AnchorPane fx:id="products" layoutX="7.0" layoutY="6.0" prefHeight="460.0" prefWidth="594.0" stylesheets="@DashboardStyles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="products" layoutX="7.0" layoutY="6.0" prefHeight="460.0" prefWidth="594.0" stylesheets="@DashboardStyles.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="143.0" prefHeight="314.0" prefWidth="571.0">
                                  <children>

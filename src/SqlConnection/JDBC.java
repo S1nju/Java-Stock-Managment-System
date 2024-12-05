@@ -10,13 +10,16 @@ import javafx.scene.control.Alert.AlertType;
 
 public class JDBC  {
 
-	
+	private JDBC() {
+		
+	}
 	public static Connection getcon() {
 			String url="jdbc:mysql://localhost:3306/miniprj";
 		try {
 			Connection con = DriverManager.getConnection(url,"root","");
 		return con;
-			}catch(SQLException e) {
+			}
+		catch(SQLException e) {
 				e.printStackTrace();
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("NO DATABASE Conection");
