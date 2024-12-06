@@ -11,6 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import Dashboard.Catg.CatgCreate;
+import Dashboard.Catg.CatgData;
+import Dashboard.Catg.CatgDelete1;
+import Dashboard.Catg.CatgUpdate;
+import Dashboard.Product.ProductData;
+import Dashboard.Source.SourceCreate;
+import Dashboard.Source.SourceDelete;
+import Dashboard.Source.SourceUpdate;
+import Dashboard.Source.SourcesData;
+import Dashboard.Type.TypeCreate;
+import Dashboard.Type.TypeData;
+import Dashboard.Type.TypeDelete;
+import Dashboard.Type.TypeUpdate;
 import SqlConnection.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -219,12 +232,13 @@ public class DashboardController  implements Initializable {
 	   
    }
    public void productUpdate() throws SQLException {
+	   String sql1 = "(SELECT DID FROM distributeur WHERE nom='"+pro_source.getSelectionModel().getSelectedItem().toString()+"')";
 	   String sql = "UPDATE product SET name= '"+  pro_name.getText() +"',price="+ pro_price.getText()+",qte="+pro_qte.getText()+
-			   ",source='"+pro_source.getSelectionModel().getSelectedItem().toString()
-			   +"',Category='"+pro_catg.getSelectionModel().getSelectedItem().toString()+
+			   ",DID="+sql1
+			   +",Category='"+pro_catg.getSelectionModel().getSelectedItem().toString()+
 			   "',type='"+pro_type.getSelectionModel().getSelectedItem().toString()+"' WHERE PID="+Integer.parseInt(pro_pid.getText())+"";
 	   con = JDBC.getcon();
-	   try {
+	  
 		   if(pro_pid.getText().isEmpty()||pro_price.getText().isEmpty()||pro_qte.getText().isEmpty()||pro_type.getSelectionModel().getSelectedItem()==null
 				   ||pro_source.getSelectionModel().getSelectedItem()==null 
 				   
@@ -243,8 +257,10 @@ public class DashboardController  implements Initializable {
 				alert2.setContentText("Are you sure that you want to edit"+ pro_name.getText());
 				
 				if(alert2.showAndWait().get()== ButtonType.OK) {
+					 try {
 					 s  = con.createStatement();
-					   s.executeUpdate(sql);	
+					   s.executeUpdate(sql);
+					  
 					   
 						 addproductShowliastData();
 						 resetafteraddproduct();
@@ -252,21 +268,23 @@ public class DashboardController  implements Initializable {
 				
 				
 				
-				}
+				}  catch(SQLException e) {
+					   e.printStackTrace();
+				   }finally{
+					   s.close();
+					   con.close();
+					   
+				   }}
 		
 		   
 	}
-	   }catch(SQLException e) {
-		   e.printStackTrace();
-	   }finally{
-		   s.close();
-		   con.close();
-		   
-	   }
+	 
 	   
    }
    public void productadd() throws SQLException {
-	   String querry = "INSERT INTO product (name,Category,qte,type,price,source) VALUES (?,?,?,?,?,?)";
+	  
+	   String prequerry ="SELECT DID FROM distributeur WHERE nom='"+pro_source.getSelectionModel().getSelectedItem().toString()+"'";
+	   
 	   con = JDBC.getcon();
 	   try {
 		   if(pro_price.getText().isEmpty()||pro_qte.getText().isEmpty()||pro_type.getSelectionModel().getSelectedItem()==null
@@ -281,17 +299,21 @@ public class DashboardController  implements Initializable {
 				alert2.show();
 			   
 		   }else {
+			   s=con.createStatement();
+			  res= s.executeQuery(prequerry);
+			  if(res.next()) { int k = res.getInt("DID");
+			  String querry = "INSERT INTO product (name,Category,qte,type,price,DID) VALUES (?,?,?,?,?,"+k+")";
 		   prepare = con.prepareStatement(querry);
 		   prepare.setString(1, pro_name.getText());
 		   prepare.setString(2, pro_catg.getSelectionModel().getSelectedItem().toString());
 		   prepare.setInt(3,Integer.parseInt(pro_qte.getText()) );
 		   prepare.setString(4, pro_type.getSelectionModel().getSelectedItem().toString());
 		   prepare.setInt(5, Integer.parseInt(pro_price.getText()));
-		   prepare.setString(6,  pro_source.getSelectionModel().getSelectedItem().toString());
+
 		 prepare.executeUpdate();
 		 addproductShowliastData();
 		 resetafteraddproduct();
-		 getpiechartdata();}
+		 getpiechartdata();}}
 	   }catch(SQLException e) {
 		   e.printStackTrace();
 	   }finally{
@@ -321,7 +343,7 @@ public class DashboardController  implements Initializable {
     		res =prepare.executeQuery();
     		ProductData source ;
     		while(res.next()) {
-    			source=new ProductData(res.getInt("PID"),res.getString("name"),res.getString("Category"),res.getInt("qte"),res.getString("type"),res.getInt("price"),res.getString("source"));
+    			source=new ProductData(res.getInt("PID"),res.getString("name"),res.getString("Category"),res.getInt("qte"),res.getString("type"),res.getInt("price"),res.getInt("DID"));
     			data.add(source);
     		}
     	}catch(Exception e) {
@@ -362,139 +384,40 @@ public class DashboardController  implements Initializable {
     	pro_qte.setText(sd.getQte().toString());
     	pro_catg.setValue(sd.getCategory());
     	pro_type.setValue(sd.getType());
-    	pro_source.setValue(sd.getSource());
+    	Connection con=JDBC.getcon();
+    	String sql = "SELECT nom FROM distributeur WHERE DID="+sd.getSource().toString();
+    	try {
+    		s=con.createStatement();
+    	res=	s.executeQuery(sql);
+    		if(res.next()) {
+    			pro_source.setValue(res.getString("nom"));	
+    		}
+    	}catch(SQLException e) {
+    		
+    	}
+    	
     	
     		
     }
    public void typeDelete() throws SQLException {
-	   String sql = "DELETE FROM taille WHERE TID='"+type_name.getText()+"'";
-	   con = JDBC.getcon();
-	   try {
-		   if(type_name.getText().isEmpty()) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-				
-				alert2.setTitle("ERROR");
-				alert2.setHeaderText("Blank Fields");
-				alert2.setContentText("please Fill all the Texts Feilds");
-				alert2.show();
-			   
-		   }else {
-
-	Alert alert2 = new Alert(AlertType.CONFIRMATION);
-				
-				alert2.setTitle("CONFIRMATION");
-				alert2.setHeaderText("Confirm command");
-				alert2.setContentText("Are you sure that you want to delete "+ type_name.getText());
-				
-				if(alert2.showAndWait().get()== ButtonType.OK) {
-					 s  = con.createStatement();
-					   s.executeUpdate(sql);	
-					   
+	   TypeDelete.TypeDeletes(type_name.getText(), tid.getText());
 						 addtypeShowliastData();
 						 resetafteraddtype();
 				
-				
-				
-				}
-		
-		   }
-	   }catch(Exception e) {
-			Alert alert2 = new Alert(AlertType.ERROR);
-			
-			alert2.setTitle("ERROR");
-			alert2.setHeaderText("Error while adding");
-			alert2.setContentText("please verify all the text fields "+e );
-			alert2.show();
-		   e.printStackTrace();
-	   }finally{
- 		   s.close();
- 		   con.close();
- 		  
- 		   
- 	   }
 	   
    }
    public void typeUpdate() throws SQLException {
-	   String sql = "UPDATE taille SET TID= '"+ type_name.getText() +"' WHERE TID='"+tid.getText()+"'";
-	   con = JDBC.getcon();
-	   try {
-		   if(type_name.getText().isEmpty()) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-				
-				alert2.setTitle("ERROR");
-				alert2.setHeaderText("Blank Fields");
-				alert2.setContentText("please Fill all the Texts Feilds");
-				alert2.show();
-			   
-		   }else {
-	Alert alert2 = new Alert(AlertType.CONFIRMATION);
-				
-				alert2.setTitle("CONFIRMATION");
-				alert2.setHeaderText("Confirm command");
-				alert2.setContentText("Are you sure that you want to edit "+ type_name.getText());
-				
-				if(alert2.showAndWait().get()== ButtonType.OK) {
-					 s  = con.createStatement();
-					   s.executeUpdate(sql);	
+	   TypeUpdate.TypeUpdates(type_name.getText(), tid.getText());
 						addproductShowliastData();
 						 addtypeShowliastData();
 						 resetafteraddtype();
-				
-				
-				
-				}
-		
-		   
-	}
-	   }catch(Exception e) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-			
-			alert2.setTitle("ERROR");
-			alert2.setHeaderText("Error while adding");
-			alert2.setContentText("please verify all the text fields "+e );
-			alert2.show();
-		   e.printStackTrace();
-	   }finally{
- 		   s.close();
- 		   con.close();
- 		
- 		   
- 	   }
 	   
    }
    public void typeadd() throws SQLException {
-	   String querry = "INSERT INTO taille (TID) VALUES (?)";
-	   con = JDBC.getcon();
-	   try {
-		   if(type_name.getText().isEmpty()) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-				
-				alert2.setTitle("ERROR");
-				alert2.setHeaderText("Blank Fields");
-				alert2.setContentText("please Fill all the Texts Feilds");
-				alert2.show();
-			   
-		   }else {
-		   prepare = con.prepareStatement(querry);
-		   prepare.setString(1, type_name.getText());
-
-		 prepare.executeUpdate();
+	   TypeCreate.TypeCreates(type_name.getText());
+	  
 		 addtypeShowliastData();
-		 resetafteraddtype();}
-	   }catch(Exception e) {
-	Alert alert2 = new Alert(AlertType.ERROR);
-			
-			alert2.setTitle("ERROR");
-			alert2.setHeaderText("Error while adding");
-			alert2.setContentText("please verify all the text fields "+e );
-			alert2.show();
-		   e.printStackTrace();
-	   }finally{
- 		   prepare.close();
- 		   con.close();
- 		 
- 		   
- 	   }
+		 resetafteraddtype();
    }
    public void resetafteraddtype() {
 	   type_name.setText("");
@@ -901,9 +824,7 @@ product.forEach(i->{
 		}
 		addSourceShowliastData();
 		addcatgShowliastData();
-		
 			addproductShowliastData();
-	
 		addtypeShowliastData();
 		typechoisebox();
 		catgchoisebox();
@@ -914,6 +835,4 @@ product.forEach(i->{
 			e.printStackTrace();
 		}
 		}
-
-
 }
